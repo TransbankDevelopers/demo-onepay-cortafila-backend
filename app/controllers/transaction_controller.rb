@@ -4,7 +4,8 @@ class TransactionController < ApplicationController
     def create
         device = Device.find_by_deviceid(params[:deviceid])
         items = params[:items]
-        cart = Transbank::Onepay::ShoppingCart.new items
+
+        cart = Transbank::Onepay::ShoppingCart.new items.as_json
 
         @transaction_creation_response = Transbank::Onepay::Transaction.create(shopping_cart: cart).to_h
 
