@@ -3,4 +3,6 @@ Rails.application.routes.draw do
   post 'setup/register', to: "setup#register"
 
   post 'transaction/:deviceid/create', to: "transaction#create"
+
+  get 'transaction/endTransaction', to: "transaction#commit"
 end
