@@ -3,7 +3,7 @@ class CreateItems < ActiveRecord::Migration[5.2]
     create_table :items do |t|
       t.integer :amount
       t.integer :quantity
-      t.integer :description
+      t.string :description
       t.string :additional_data
       t.integer :expire
       t.references :shopping_cart, foreign_key: true

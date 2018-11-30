@@ -3,13 +3,15 @@ class TransactionController < ApplicationController
 
     def create
         device = Device.find_by_deviceid(params[:deviceid])
-        items = params[:items]
+        items = params[:items].as_json.map {|item| Item.new(item)}
 
-        cart = Transbank::Onepay::ShoppingCart.new items.as_json
+        cart = Transbank::Onepay::ShoppingCart.new params[:items].as_json
 
         channel = Transbank::Onepay::Channel::MOBILE
 
         @transaction_creation_response = Transbank::Onepay::Transaction.create(shopping_cart: cart, channel: channel).to_h
+
+        ShoppingCart.create(device: device, items: items, ott: @transaction_creation_response["ott"], occ: @transaction_creation_response["occ"], amount: cart.total, external_unique_number: @transaction_creation_response["external_unique_number"])
 
         logger.info "Cart total: #{cart.total}"
         
@@ -25,25 +27,34 @@ class TransactionController < ApplicationController
         }
     end
 
-    def commit
-        if params["status"] == "PRE_AUTHORIZED"
-            response = Transbank::Onepay::Transaction.commit(
-              occ: params["occ"],
-              external_unique_number: params["external_unique_number"]
-            )
+    def endTransaction
+        @status = params["status"]
+        @occ = params["occ"]
+        @external_unique_number = params["externalUniqueNumber"]
 
-            p res.authorization_code
-            # Procesar response
+        begin
+            if @status == "PRE_AUTHORIZED"
+                @transaction_commit_response = Transbank::Onepay::Transaction.commit(
+                occ: @occ,
+                external_unique_number: @external_unique_number
+                )
+
+                puts "refund_params = { amount: #{@transaction_commit_response.amount},
+                occ: #{@transaction_commit_response.occ},
+                external_unique_number:#{@external_unique_number},
+                authorization_code: #{@transaction_commit_response.authorization_code} }
+
+                @refund_response = Transbank::Onepay::Refund.create(refund_params)
+                "
+
+                render :voucher
+            else
+            render :transaction_error
+            end
           
-          else
-            # Mostrar página de error
-          end
-          
-          rescue Transbank::Onepay::Errors::TransactionCommitError => e
-            # Manejar el error de confirmación de transacción
-    end
-
-    def voucher
-
+        rescue Transbank::Onepay::Errors::TransactionCommitError => e
+            puts e
+            render :transaction_error
+        end
     end
 end

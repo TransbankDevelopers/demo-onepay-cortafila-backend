@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2018_11_22_162631) do
   create_table "items", force: :cascade do |t|
     t.integer "amount"
     t.integer "quantity"
-    t.integer "description"
+    t.string "description"
     t.string "additional_data"
     t.integer "expire"
     t.integer "shopping_cart_id"

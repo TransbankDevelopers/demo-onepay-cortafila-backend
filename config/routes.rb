@@ -4,5 +4,5 @@ Rails.application.routes.draw do
 
   post 'transaction/:deviceid/create', to: "transaction#create"
 
-  get 'transaction/endTransaction', to: "transaction#commit"
+  get 'transaction/endTransaction', to: "transaction#endTransaction"
 end

@@ -1,0 +1,24 @@
+<div style="font-weight: bold; margin-bottom:20px;"> ¡Pagado! </div>
+
+<table>
+  <tr>
+    <td>Número de compra:</td>
+    <td><%= @external_unique_number %>  </td>
+  </tr>
+  <tr>
+    <td>Código de autorización:</td>
+    <td> <%= @transaction_commit_response.authorization_code %> </td>
+  </tr>
+  <tr>
+    <td>Orden de compra:</td>
+    <td><%= @transaction_commit_response.buy_order %> </td>
+  </tr>
+  <tr>
+    <td>Monto compra:</td>
+    <td>$<%= @transaction_commit_response.amount %> </td>
+  </tr>
+  <tr>
+    <td>Fecha:</td>
+    <td> <%= @transaction_commit_response.issued_at %>  </td>
+  </tr>
+</table>
