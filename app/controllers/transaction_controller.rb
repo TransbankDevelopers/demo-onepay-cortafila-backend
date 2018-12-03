@@ -31,6 +31,17 @@ class TransactionController < ApplicationController
         @status = params["status"]
         @occ = params["occ"]
         @external_unique_number = params["externalUniqueNumber"]
+        device = (ShoppingCart.find_by_occ @occ).device
+        registration_ids = [device.fcmtoken] 
+
+        fcm = FCM.new("AAAAiDT4oJE:APA91bFLVt--Dr_nAhZ_ZqgGJnfqbQXXrj_uRwbWlLFlrwtsJto1u_X9mcQUIQWdFXvGrPq3kxEJNaF3MkZFQThQRTQr6twv45S-XkEKnxSa41oZIrx3YINT0_GQ8Q9At9X-DwWt2TUF")
+
+        options = { "data": {
+                    "occ": @occ,
+                    "status": @status,
+                    "external_unique_number": @external_unique_number
+                }}
+        response = fcm.send(registration_ids, options)
 
         begin
             if @status == "PRE_AUTHORIZED"
@@ -46,10 +57,9 @@ class TransactionController < ApplicationController
 
                 @refund_response = Transbank::Onepay::Refund.create(refund_params)
                 "
-
                 render :voucher
             else
-            render :transaction_error
+                render :transaction_error
             end
           
         rescue Transbank::Onepay::Errors::TransactionCommitError => e
