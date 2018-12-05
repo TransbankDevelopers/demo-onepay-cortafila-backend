@@ -41,7 +41,6 @@ class TransactionController < ApplicationController
                     "status": @status,
                     "external_unique_number": @external_unique_number
                 }}
-        response = fcm.send(registration_ids, options)
 
         begin
             if @status == "PRE_AUTHORIZED"
@@ -49,6 +48,8 @@ class TransactionController < ApplicationController
                 occ: @occ,
                 external_unique_number: @external_unique_number
                 )
+
+                options[:data][:description] = @transaction_commit_response.description
 
                 puts "refund_params = { amount: #{@transaction_commit_response.amount},
                 occ: #{@transaction_commit_response.occ},
@@ -66,5 +67,7 @@ class TransactionController < ApplicationController
             puts e
             render :transaction_error
         end
+
+        response = fcm.send(registration_ids, options)
     end
 end
