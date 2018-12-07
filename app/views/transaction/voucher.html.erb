@@ -22,3 +22,14 @@
     <td> <%= @transaction_commit_response.issued_at %>  </td>
   </tr>
 </table>
+
+<br><br>
+Detalle de compra:
+<br><br>
+<table style="border: 1px solid black; width: 100%; text-align: left;">
+  <% @items.each do |item| %>
+  <tr>
+    <td>- <%= item.description %></td>
+  </tr>
+  <% end %>
+</table>

@@ -31,8 +31,11 @@ class TransactionController < ApplicationController
         @status = params["status"]
         @occ = params["occ"]
         @external_unique_number = params["externalUniqueNumber"]
-        device = (ShoppingCart.find_by_occ @occ).device
-        registration_ids = [device.fcmtoken] 
+
+        shopping_cart = ShoppingCart.find_by_occ @occ
+        device = shopping_cart.device
+        registration_ids = [device.fcmtoken]
+        @items = shopping_cart.items
 
         fcm = FCM.new("AAAAiDT4oJE:APA91bFLVt--Dr_nAhZ_ZqgGJnfqbQXXrj_uRwbWlLFlrwtsJto1u_X9mcQUIQWdFXvGrPq3kxEJNaF3MkZFQThQRTQr6twv45S-XkEKnxSa41oZIrx3YINT0_GQ8Q9At9X-DwWt2TUF")
 
