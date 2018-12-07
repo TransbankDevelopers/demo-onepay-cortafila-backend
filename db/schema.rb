@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_22_162631) do
+ActiveRecord::Schema.define(version: 2018_11_22_262631) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "devices", force: :cascade do |t|
     t.string "deviceid"
@@ -25,7 +28,7 @@ ActiveRecord::Schema.define(version: 2018_11_22_162631) do
     t.string "description"
     t.string "additional_data"
     t.integer "expire"
-    t.integer "shopping_cart_id"
+    t.bigint "shopping_cart_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["shopping_cart_id"], name: "index_items_on_shopping_cart_id"
@@ -37,10 +40,12 @@ ActiveRecord::Schema.define(version: 2018_11_22_162631) do
     t.string "external_unique_number"
     t.integer "issued_at"
     t.integer "amount"
-    t.integer "device_id"
+    t.bigint "device_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["device_id"], name: "index_shopping_carts_on_device_id"
   end
 
+  add_foreign_key "items", "shopping_carts"
+  add_foreign_key "shopping_carts", "devices"
 end
