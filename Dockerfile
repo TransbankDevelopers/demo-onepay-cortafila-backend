@@ -1,5 +1,5 @@
 FROM ruby:2.5.1
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs libpq-dev
 RUN mkdir -p /myapp
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
