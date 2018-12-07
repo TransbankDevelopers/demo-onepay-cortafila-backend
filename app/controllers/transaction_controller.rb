@@ -37,7 +37,7 @@ class TransactionController < ApplicationController
         registration_ids = [device.fcmtoken]
         @items = shopping_cart.items
 
-        fcm = FCM.new("AAAAiDT4oJE:APA91bFLVt--Dr_nAhZ_ZqgGJnfqbQXXrj_uRwbWlLFlrwtsJto1u_X9mcQUIQWdFXvGrPq3kxEJNaF3MkZFQThQRTQr6twv45S-XkEKnxSa41oZIrx3YINT0_GQ8Q9At9X-DwWt2TUF")
+        fcm = FCM.new(ENV["FCM_TOKEN"])
 
         options = { "data": {
                     "occ": @occ,
