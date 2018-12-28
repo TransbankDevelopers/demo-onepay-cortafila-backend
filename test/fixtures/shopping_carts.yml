@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  occ: MyString
+  ott: MyString
+  external_unique_number: MyString
+  issued_at: 1
+  amount: 1
+  device: one
+
+two:
+  occ: MyString
+  ott: MyString
+  external_unique_number: MyString
+  issued_at: 1
+  amount: 1
+  device: two

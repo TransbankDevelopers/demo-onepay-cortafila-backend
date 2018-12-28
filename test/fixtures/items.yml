@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  amount: 1
+  quantity: 1
+  description: 1
+  additional_data: MyString
+  expire: 1
+  shopping_cart: one
+
+two:
+  amount: 1
+  quantity: 1
+  description: 1
+  additional_data: MyString
+  expire: 1
+  shopping_cart: two

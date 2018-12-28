@@ -7,9 +7,16 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
 
   <body>
-    <%= yield %>
+    <%= image_tag "logo.png" , class: "logo" %>
+    <div style="margin: auto;width: 80%; text-align: center;">
+      <div class="content">  
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>
