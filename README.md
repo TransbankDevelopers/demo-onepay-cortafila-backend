@@ -32,7 +32,7 @@ Luego, es necesario crear la base de datos:
 
 Correr las migraciones para que la base de datos esté preparada:
 
-- `docker-compose run --rm web rake db:create`
+- `docker-compose run --rm web rake db:migrate`
 
 ¡Y listo! Puedes correr la aplicación ejecutando:
 
