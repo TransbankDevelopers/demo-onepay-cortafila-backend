@@ -1,7 +1,7 @@
 <% icon_sizes = Rails.configuration.serviceworker.icon_sizes %>
 {
-  "name": "My Progressive Rails App",
-  "short_name": "Progressive",
+  "name": "Demo Cortafilas Web - Onepay",
+  "short_name": "Demo Cortafilas",
   "start_url": "/",
   "icons": [
   <% icon_sizes.map { |s| "#{s}x#{s}" }.each.with_index do |dim, i| %>
@@ -12,7 +12,7 @@
     }<%= i == (icon_sizes.length - 1) ? '' : ',' %>
   <% end %>
   ],
-  "theme_color": "#000000",
+  "theme_color": "#7B1FA2",
   "background_color": "#FFFFFF",
   "display": "fullscreen",
   "orientation": "portrait"

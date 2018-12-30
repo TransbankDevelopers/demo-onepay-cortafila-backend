@@ -1,5 +1,6 @@
 class TransactionController < ApplicationController
     skip_before_action :verify_authenticity_token
+    layout "transaction"
 
     def create
       cart = Transbank::Onepay::ShoppingCart.new params[:items].as_json
@@ -65,6 +66,6 @@ class TransactionController < ApplicationController
       puts e
       render :transaction_error
     ensure
-      response = fcm.send(registration_ids, options)
+      response = fcm.send(registration_ids, options) if registration_ids
     end
 end

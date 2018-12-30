@@ -14,6 +14,11 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= image_tag "logo.png" , class: "logo" %>
+    <div style="margin: auto;width: 80%; text-align: center;">
+      <div class="content">
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>
