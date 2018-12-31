@@ -15,3 +15,7 @@
 //= require turbolinks
 //= require_tree .
 //= require serviceworker-companion
+//= require jquery
+//= require popper
+//= require bootstrap
+//= require material
