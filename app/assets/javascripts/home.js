@@ -2,6 +2,8 @@
 // All this logic will automatically be available in application.js.
 
 $(document).ready(function() {
+  $("body").css({"overflow":"hidden"});
+
   $('#pay-button').click(function() {
     $('#paymentModal').modal();
   });
