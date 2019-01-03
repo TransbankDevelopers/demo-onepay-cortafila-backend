@@ -1,2 +1,68 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<header class="navbar navbar-dark navbar-full bg-primary doc-navbar-default">
+  <span class="navbar-brand mr-auto">Demo Cortafilas Onepay</span>
+</header>
+
+<main class="container">
+  <%= image_tag 'logo.png', class: "homelogo mx-auto d-block mt-3" %>
+  <p class="d-flex justify-content-center mt-3" style="font-size:20px;"> ¡Hola! ¿Que quieres llevar? </p>
+
+  <div class="container">
+    <div class="row">
+      <div class="col d-flex justify-content-center btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-light" style="height:150px; width: 150px;">
+        <%=image_tag "cafe.png", style: "height: 70%;" %> <br>
+        <input class="checkbox-item" id="checkbox-cafe" type="checkbox" autocomplete="off" data-price="1" data-name="Café">
+        <div class="pt-3">Café
+          <div>$1</div>
+        </div>
+      </label>
+
+      </div>
+      <div class="col d-flex justify-content-center btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-light" style="height:150px; width: 150px;">
+      <%=image_tag "sanguche.png", style: "height: 70%;width:100%;" %> <br>
+        <input class="checkbox-item" id="checkbox-sandwich" type="checkbox" autocomplete="off" data-price="2" data-name="Sandwich">
+        <div class="pt-3"> Sandwich
+          <div>$2</div>
+        </div>
+      </label>
+      </div>
+    </div>
+    <div class="row pt-4">
+      <div class="col d-flex justify-content-center btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-light" style="height:150px; width: 150px;">
+      <%=image_tag "muffin.png", style: "height: 70%; width:100%;" %> <br>
+        <input class="checkbox-item" id="checkbox-muffin" type="checkbox" autocomplete="off" data-price="3" data-name="Muffin">
+        <div class="pt-3"> Muffin
+          <div>$3</div>
+        </div>
+      </label>
+      </div>
+      <div class="col d-flex justify-content-center btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-light" style="height:150px; width: 150px;">
+      <%=image_tag "medialuna.png", style: "height: 60%; width:100%;" %>
+
+        <input class="checkbox-item" id="checkbox-medialuna" type="checkbox" autocomplete="off" data-price="4" data-name="Medialuna">
+        <div class="pt-4">Medialuna
+          <div>$4</div>
+        </div>
+      </label>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer bg-dark text-light">
+  <div class="container">
+    <div class="row">
+      <div class="col d-flex justify-content-center" style="font-size: 25px;">
+        <p>Total: $</p> <p id="totalItems">0</p>
+      </div>
+      <div class="col justify-content-center">
+        <button id="pay-button" type="button" class="btn btn-light btn-lg w-75" autocomplete="off">
+          Pagar
+        </button>
+      </div>
+    </div>
+  </div>
+</footer>
