@@ -20,16 +20,16 @@
       <div class="modal-header bg-onepay">
         <%= image_tag "onepaylogo.png", class: "mx-auto d-block" %>
       </div>
-      <div class="modal-body" id="messageModalBody">
-        <div class="text-center">
+      <div id="mainContentModal" class="modal-body invisible">
+        <div class="text-center mt-3">
           Escanea el <span class="font-weight-bold">código QR</span> con <br>
           la app <span class="font-weight-bold">Onepay</span> de tu celular
         </div>
 
-        <div id="payment-qr" class="bg-dark mx-auto d-block" style="width: 150px; height: 150px;">
+        <div id="payment-qr" class="bg-dark mx-auto d-block mt-3" style="width: 150px; height: 150px;">
         </div>
 
-        <div class="text-center">
+        <div class="text-center mt-2">
           1234 - 5678
         </div>
 
@@ -37,15 +37,38 @@
           Código de compra
         </div>
 
-        <div class="progress">
+        <div class="progress mt-4">
           <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"></div>
         </div>
 
         <div class="text-center">
           Tienes un minuto y medio para efectuar el pago
         </div>
-
       </div>
+
+      <div id="mainContentModal" class="modal-body visible position-absolute d-flex justify-content-center" style="width:100%; top: 45%;" >
+        <div>
+          <div class="progress-circular mx-auto">
+            <div class="progress-circular-wrapper">
+              <div class="progress-circular-inner">
+                <div class="progress-circular-left">
+                  <div class="progress-circular-spinner"></div>
+                </div>
+                <div class="progress-circular-gap"></div>
+                <div class="progress-circular-right">
+                  <div class="progress-circular-spinner"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2">
+          Danos un segundo, estamos procesando...
+          </div>
+        </div>
+      </div>
+
+
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No pagar y volver</button>
       </div>
