@@ -29,7 +29,7 @@
         <div id="payment-qr" class="bg-dark mx-auto d-block mt-3" style="width: 150px; height: 150px;">
         </div>
 
-        <div class="text-center mt-2">
+        <div id="payment-code" class="text-center mt-2">
           1234 - 5678
         </div>
 
@@ -38,7 +38,7 @@
         </div>
 
         <div class="progress mt-4">
-          <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"></div>
+          <div id="timer-progress-bar" class="progress-bar bg-warning" role="progressbar" style="width: 100%"></div>
         </div>
 
         <div class="text-center">
@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <div id="mainContentModal" class="modal-body visible position-absolute d-flex justify-content-center" style="width:100%; top: 45%;" >
+      <div id="loadingContentModal" class="modal-body visible position-absolute d-flex justify-content-center" style="width:100%; top: 45%;" >
         <div>
           <div class="progress-circular mx-auto">
             <div class="progress-circular-wrapper">
@@ -67,10 +67,31 @@
         </div>
       </div>
 
+      <div id="successContentModal" class="modal-body invisible position-absolute d-flex justify-content-center" style="width:100%; top: 35%;" >
+        <div>
+          <%= image_tag "green_tick.png", class: "mx-auto d-flex justify-content-center", style: "width:100px;" %>
+          <div class="mt-2 d-flex justify-content-center">
+            ¡El pago se realizó de forma exitósa!
+          </div>
+          <div class="mt-2">
+            <div class="d-flex justify-content-center">
+              <p>Número de compra: </p> <p id="orderNumber">1234567890</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <div id="errorContentModal" class="modal-body invisible position-absolute d-flex justify-content-center" style="width:100%; top: 35%;" >
+        <div>
+          <%= image_tag "error.png", class: "mx-auto d-flex justify-content-center", style: "width:100px;" %>
+          <div class="mt-2 d-flex justify-content-center">
+            Ha ocurrido un error al intentar procesar tu pago, reinténtalo nuevamente
+          </div>
+        </div>
+      </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">No pagar y volver</button>
+        <button id="closeButton" type="button" class="btn btn-secondary" data-dismiss="modal">No pagar y volver</button>
       </div>
     </div>
   </div>
