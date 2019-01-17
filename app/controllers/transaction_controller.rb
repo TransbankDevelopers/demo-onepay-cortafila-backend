@@ -31,7 +31,7 @@ class TransactionController < ApplicationController
 
       shopping_cart = ShoppingCart.find_by_occ @occ
       device = shopping_cart.device
-      registration_ids = [device.fcmtoken.undump]
+      registration_ids = [device.fcmtoken]
       @items = shopping_cart.items
 
       options = { "data": {
