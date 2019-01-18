@@ -20,7 +20,7 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'serviceworker-rails'
 
-gem 'bootstrap',     '4.1.1'
+gem "bootstrap", ">= 4.1.2"
 gem 'material-sass', '4.1.1'
 
 gem 'jquery-rails'
