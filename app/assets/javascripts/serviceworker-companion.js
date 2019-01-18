@@ -41,7 +41,6 @@ if (navigator.serviceWorker) {
         } else {
           // We have a subscription, update the database
           postSubscription(sub);
-          //$.post("/setup/register", { deviceid: deviceid, token: sub.toJSON(), source: "web"});
         }
       });
     });
@@ -57,7 +56,6 @@ function subscribeUser() {
       }).then(function(sub) {
         console.log('Endpoint URL: ', sub.endpoint);
         postSubscription(sub);
-        //$.post("/setup/register", { deviceid: deviceid, token: sub.toJSON(), source: "web"});
       }).catch(function(e) {
         if (Notification.permission === 'denied') {
           alert("La solicitud para notificaciones push fue rechazada. La aplicación no podrá funcionar.");
