@@ -12,11 +12,5 @@
 //
 //= require rails-ujs
 //= require activestorage
-//= require turbolinks
-//= require serviceworker-companion
 //= require jquery
-//= require qrcode
 //= require popper
-//= require bootstrap
-//= require material
-//= require_tree .

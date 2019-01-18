@@ -1,5 +1,6 @@
 class TransactionController < ApplicationController
     skip_before_action :verify_authenticity_token
+    layout "transaction"
 
     def create
       cart = Transbank::Onepay::ShoppingCart.new params[:items].as_json
@@ -30,10 +31,7 @@ class TransactionController < ApplicationController
 
       shopping_cart = ShoppingCart.find_by_occ @occ
       device = shopping_cart.device
-      registration_ids = [device.fcmtoken]
       @items = shopping_cart.items
-
-      fcm = FCM.new(ENV["FCM_TOKEN"])
 
       options = { "data": {
                   "occ": @occ,
@@ -65,6 +63,22 @@ class TransactionController < ApplicationController
       puts e
       render :transaction_error
     ensure
-      response = fcm.send(registration_ids, options)
+      if device.android?
+        fcm = FCM.new(ENV["FCM_TOKEN"])
+        response = fcm.send([device.fcmtoken.undump], options) if device.fcmtoken
+      elsif device.web?
+        push_data_conn = JSON.parse(device.fcmtoken)
+        Webpush.payload_send(
+          endpoint: push_data_conn["endpoint"],
+          message: JSON.generate(options),
+          p256dh: push_data_conn["keys"]["p256dh"],
+          auth: push_data_conn["keys"]["auth"],
+          vapid: {
+            subject: "mailto:transbankdevelopers@continuum.cl",
+            public_key: ENV["VAPID_PUBLIC_KEY"],
+            private_key: ENV["VAPID_PRIVATE_KEY"]
+          }
+        )
+      end
     end
 end

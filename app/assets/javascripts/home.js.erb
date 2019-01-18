@@ -1,0 +1,137 @@
+// Place all the behaviors and hooks related to the matching controller here.
+// All this logic will automatically be available in application.js.
+
+window.vapidPublicKey = new Uint8Array(<%= Base64.urlsafe_decode64(ENV['VAPID_PUBLIC_KEY']).bytes %>);
+let counterBack;
+let occ;
+let externalUniqueNumber;
+let modal;
+let alert;
+
+function callbackMessage(event) {
+  if ((event.data && event.data.data && event.data.data.description === "OK") && (event.data.data.occ == occ)) {
+    showPaymentInfo();
+  } else {
+    showError();
+  }
+}
+
+function showAlert(title, description) {
+  alert = $('#messageModal').clone().attr("id","cloneMessageModal");
+
+  alert.find('#messageModalTitle').text(title);
+  alert.find('#messageModalBody').text(description);
+
+  alert.on('hidden.bs.modal', function(e) {
+    alert.remove();
+  });
+
+  alert.modal();
+}
+
+function showPaymentInfo() {
+  modal.find('#mainContentModal').removeClass('visible').addClass('invisible');
+  modal.find('#successContentModal').removeClass('invisible').addClass('visible');
+  modal.find('#closeButton').text('Cerrar y continuar');
+  modal.find('#orderNumber').text(externalUniqueNumber);
+  clearInterval(counterBack);
+}
+
+function showError() {
+  modal.find('#mainContentModal').removeClass('visible').addClass('invisible');
+  modal.find('#errorContentModal').removeClass('invisible').addClass('visible');
+  modal.find('#closeButton').text('Cerrar y continuar');
+
+  clearInterval(counterBack);
+}
+
+$(document).ready(function() {
+  $("body").css({"overflow":"hidden"});
+
+  $('#pay-button').click(function() {
+    let deviceid = localStorage.getItem("deviceid");
+    let items = $.map($('.checkbox-item:checked'), function(n, i) { return { quantity:1, amount: $(n).data("price"), description: $(n).data('name') }});
+
+    if (items.length > 0) {
+      modal = $('#paymentModal').clone().attr("id","clonePaymentModal");
+
+      modal.on('show.bs.modal', function(e) {
+        $.ajax({
+          url:"/transaction/" + deviceid + "/create",
+          type:"POST",
+          data:JSON.stringify({deviceid: deviceid, items: items}),
+          contentType:"application/json; charset=utf-8",
+          dataType:"json",
+          success: function(data){
+            occ = data.occ;
+            externalUniqueNumber = data.externalUniqueNumber;
+            showQR(modal, data.ott);
+            showOTT(modal, data.ott);
+            showMainContentPayment(modal);
+
+            let i = 90;
+            counterBack = setInterval(function () {
+              i--;
+              if (i > 0) {
+                modal.find('#timer-progress-bar').css('width', (i*(100/90)) + '%');
+              } else {
+                clearInterval(counterBack);
+                modal.modal('hide');
+                showAlert('¡Ups!', 'Ha transcurrido el tiempo límite para hacer el pago, inténtalo nuevamente.');
+              }
+            }, 1000);
+
+            navigator.serviceWorker.addEventListener('message', callbackMessage);
+          }
+        });
+      });
+
+      modal.on('hidden.bs.modal', function(e) {
+        $('#payment-qr').empty();
+        hideMainContentPayment();
+        navigator.serviceWorker.removeEventListener('message', callbackMessage);
+        modal.remove();
+      });
+
+      modal.modal();
+    } else {
+      showAlert('¡Ups!', 'Debes seleccionar al menos un producto para comprar.');
+    }
+  });
+
+  function showQR(modal, ott) {
+    new QRCode(modal.find("#payment-qr")[0], {
+      text: "onepay=ott:" + ott,
+      width: 150,
+      height: 150,
+      colorDark : "#000000",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
+    });
+  }
+
+  function showOTT(modal, ott) {
+    stringOTT = String(ott);
+    modal.find('#payment-code').text(stringOTT.substr(0,4) + ' - ' + stringOTT.substr(4,4))
+  }
+
+  function showMainContentPayment(element) {
+    element.find('#loadingContentModal').removeClass('visible').addClass('invisible');
+    element.find('#mainContentModal').removeClass('invisible').addClass('visible');
+  }
+
+  function hideMainContentPayment() {
+    clearInterval(counterBack);
+  }
+
+  $('.checkbox-item').change(function(e) {
+    let totalItem = $('#totalItems');
+    let price = $(this).data("price")
+
+    if (this.checked) {
+      totalItem.text(parseInt(totalItem.text()) + parseInt(price));
+    } else {
+      totalItem.text(parseInt(totalItem.text()) - parseInt(price));
+    }
+  });
+});

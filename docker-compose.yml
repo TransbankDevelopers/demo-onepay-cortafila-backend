@@ -8,6 +8,8 @@ services:
       - API_KEY=${API_KEY}
       - SHARED_SECRET=${SHARED_SECRET}
       - BASE_DOMAIN=${BASE_DOMAIN}
+      - VAPID_PUBLIC_KEY=${VAPID_PUBLIC_KEY}
+      - VAPID_PRIVATE_KEY=${VAPID_PRIVATE_KEY}
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
     volumes:
       - .:/myapp
