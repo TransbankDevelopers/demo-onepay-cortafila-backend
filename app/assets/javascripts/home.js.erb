@@ -46,6 +46,20 @@ function showError() {
 }
 
 $(document).ready(function() {
+
+  if (typeof Notification === 'undefined') {
+    $('#overlay-permission').show();
+    $('#overlay-message').text("Este browser es incompatible :(, no es posible ejecutar la demo");
+  } else if (Notification.permission == "default") {
+     $('#overlay-permission').show();
+     $('#overlay-message').text("Por favor, acepta los permisos de notificación ☝, es obligatorio para que funcione la aplicación");
+  } else if (Notification.permission == "granted") {
+    $('#overlay-permission').hide();
+  } else {
+    $('#overlay-permission').show();
+    $('#overlay-message').text("Los permisos de notificación han sido rechazados, por favor aceptalos");
+  }
+
   $("body").css({"overflow":"hidden"});
 
   $('#pay-button').click(function() {

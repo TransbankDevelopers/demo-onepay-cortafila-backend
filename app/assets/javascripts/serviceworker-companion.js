@@ -41,6 +41,7 @@ if (navigator.serviceWorker) {
         } else {
           // We have a subscription, update the database
           postSubscription(sub);
+          $('#overlay-permission').hide();
         }
       });
     });
@@ -55,14 +56,17 @@ function subscribeUser() {
         applicationServerKey: window.vapidPublicKey
       }).then(function(sub) {
         console.log('Endpoint URL: ', sub.endpoint);
+        $('#overlay-permission').hide();
         postSubscription(sub);
       }).catch(function(e) {
         if (Notification.permission === 'denied') {
-          alert("La solicitud para notificaciones push fue rechazada. La aplicación no podrá funcionar.");
+          $('#overlay-permission').show();
+          $('#overlay-message').text("Los permisos de notificación han sido rechazados, por favor aceptalos");
           console.warn('Permission for notifications was denied');
         } else {
-          alert("No fue posible realizar la subscripción para notificaciones push.");
           console.error('Unable to subscribe to push', e);
+          $('#overlay-permission').show();
+          $('#overlay-message').text("Los permisos de notificación han sido rechazados, por favor aceptalos");
         }
       });
     })
