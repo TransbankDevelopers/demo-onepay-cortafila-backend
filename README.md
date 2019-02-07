@@ -6,7 +6,7 @@ Este proyecto busca demostrar la integración de Onepay en modalidad Cortafilas,
 
 La demostración consta de tres componentes:
 
-- Una [aplicación movil Android](https://github.com/TransbankDevelopers/transbank-example-cortafilas-android-onepay) que muestra el código QR para pagar con Onepay
+- Una [aplicación movil Android](https://github.com/TransbankDevelopers/demo-onepay-cortafila-android) que muestra el código QR para pagar con Onepay
 - La aplicación backend (este proyecto)
 - Una aplicación frontend Cortafilas Web (dentro de este proyecto)
 
@@ -15,7 +15,7 @@ La demostración consta de tres componentes:
 
 - [Docker](https://www.docker.com)
 - [Docker Compose](https://docs.docker.com/compose/install/)
-- La [aplicación movil Android](https://github.com/TransbankDevelopers/transbank-example-cortafilas-android-onepay) que consuma la API expuesta por el backend
+- La [aplicación movil Android](https://github.com/TransbankDevelopers/demo-onepay-cortafila-android) que consuma la API expuesta por el backend
 
 ## Instrucciones para ejecución
 
