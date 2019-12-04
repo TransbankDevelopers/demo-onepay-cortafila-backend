@@ -39,7 +39,7 @@ class TransactionController < ApplicationController
                   "external_unique_number": @external_unique_number
               }}
 
-      if @status == "PRE_AUTHORIZED"
+      if (@status == "PRE_AUTHORIZED" || @status == "AUTHORIZED")
         @transaction_commit_response = Transbank::Onepay::Transaction.commit(
         occ: @occ,
         external_unique_number: @external_unique_number
