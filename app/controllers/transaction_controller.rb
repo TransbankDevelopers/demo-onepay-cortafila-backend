@@ -5,12 +5,11 @@ class TransactionController < ApplicationController
     def create
       cart = Transbank::Onepay::ShoppingCart.new params[:items].as_json
       channel = Transbank::Onepay::Channel::MOBILE
-
       @transaction_creation_response = Transbank::Onepay::Transaction.create(shopping_cart: cart, channel: channel).to_h
 
       device = Device.find_by_deviceid(params[:deviceid])
       items = cart.items.as_json.map {|item| Item.new(item)}
-      ShoppingCart.create(device: device, items: items, ott: @transaction_creation_response["ott"], occ: @transaction_creation_response["occ"], amount: cart.total, external_unique_number: @transaction_creation_response["external_unique_number"])
+      ShoppingCart.create!(device: device, items: items, ott: @transaction_creation_response["ott"], occ: @transaction_creation_response["occ"], amount: cart.total, external_unique_number: @transaction_creation_response["external_unique_number"])
 
       render json: {
         responseCode: @transaction_creation_response["response_code"],
@@ -22,6 +21,7 @@ class TransactionController < ApplicationController
         signature: @transaction_creation_response["signature"],
         amount: cart.total
       }
+
     end
 
     def endTransaction
