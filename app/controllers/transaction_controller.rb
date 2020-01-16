@@ -9,7 +9,19 @@ class TransactionController < ApplicationController
 
       device = Device.find_by_deviceid(params[:deviceid])
       items = cart.items.as_json.map {|item| Item.new(item)}
-      ShoppingCart.create!(device: device, items: items, ott: @transaction_creation_response["ott"], occ: @transaction_creation_response["occ"], amount: cart.total, external_unique_number: @transaction_creation_response["external_unique_number"])
+      c = ShoppingCart.create(device: device, items: items, ott: @transaction_creation_response["ott"], occ: @transaction_creation_response["occ"], amount: cart.total, external_unique_number: @transaction_creation_response["external_unique_number"])
+
+      BuyTransaction.create(
+        status: "Creada",
+        response_code: @transaction_creation_response["response_code"],
+        description: @transaction_creation_response["description"],
+        occ: @transaction_creation_response["occ"],
+        ott: @transaction_creation_response["ott"],
+        amount: cart.total,
+        external_unique_number: @transaction_creation_response["external_unique_number"],
+        issuedAt: @transaction_creation_response["issued_at"],
+        ShoppingCart_id: c.id
+        )
 
       render json: {
         responseCode: @transaction_creation_response["response_code"],
@@ -28,6 +40,7 @@ class TransactionController < ApplicationController
       @status = params["status"]
       @occ = params["occ"]
       @external_unique_number = params["externalUniqueNumber"]
+      @buy_transaction = BuyTransaction.find_by_occ @occ
 
       shopping_cart = ShoppingCart.find_by_occ @occ
       device = shopping_cart.device
@@ -39,6 +52,8 @@ class TransactionController < ApplicationController
                   "external_unique_number": @external_unique_number
               }}
 
+      @buy_transaction.update(status: params["status"])
+
       if (@status == "PRE_AUTHORIZED" || @status == "AUTHORIZED")
         @transaction_commit_response = Transbank::Onepay::Transaction.commit(
         occ: @occ,
@@ -46,6 +61,17 @@ class TransactionController < ApplicationController
         )
 
         options[:data][:description] = @transaction_commit_response.description
+
+        @buy_transaction.update(
+          authorizationCode: @transaction_commit_response.authorization_code,
+          issuedAt: @transaction_commit_response.issued_at,
+          signature: @transaction_commit_response.signature,
+          amount: @transaction_commit_response.amount,
+          transactionDesc: @transaction_commit_response.transaction_desc,
+          installmentsAmount: @transaction_commit_response.installments_amount,
+          installmentsNumber: @transaction_commit_response.installments_number,
+          buyOrder: @transaction_commit_response.buy_order
+          )
 
         puts "refund_params = { amount: #{@transaction_commit_response.amount},
         occ: #{@transaction_commit_response.occ},
