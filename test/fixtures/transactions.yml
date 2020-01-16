@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  status: MyString
+  response_code: MyString
+  description: MyString
+  result: MyString
+  ShoppingCart: 
+
+two:
+  status: MyString
+  response_code: MyString
+  description: MyString
+  result: MyString
+  ShoppingCart: 
