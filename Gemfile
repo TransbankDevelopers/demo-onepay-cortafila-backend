@@ -5,6 +5,10 @@ ruby '2.5.1'
 
 gem 'transbank-sdk', '~> 1.0.2'
 
+gem 'activeadmin'
+
+gem 'devise'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.1'
 # Use postgresql as the database for Active Record
