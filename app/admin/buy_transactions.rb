@@ -17,7 +17,8 @@ ActiveAdmin.register BuyTransaction do
 
   actions :index, :show
   filter :status
-  filter :issuedAt
+  filter :created_at
+  filter :updated_at
   filter :response_code
   filter :amount
   filter :occ
