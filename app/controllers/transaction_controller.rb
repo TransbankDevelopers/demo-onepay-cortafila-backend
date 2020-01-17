@@ -63,6 +63,7 @@ class TransactionController < ApplicationController
         options[:data][:description] = @transaction_commit_response.description
 
         @buy_transaction.update(
+          status: "Authorized",
           authorizationCode: @transaction_commit_response.authorization_code,
           issuedAt: @transaction_commit_response.issued_at,
           signature: @transaction_commit_response.signature,
@@ -87,6 +88,8 @@ class TransactionController < ApplicationController
 
     rescue Transbank::Onepay::Errors::TransactionCommitError => e
       puts e
+      @buy_transaction.update(status: "Error",
+        description: e.message)
       render :transaction_error
     ensure
       if device.android?
